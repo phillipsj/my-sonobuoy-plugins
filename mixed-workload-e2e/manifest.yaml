@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: mixed-workload
+  labels:
+    app: mixed-workload
+spec:
+  selector:
+    matchLabels:
+      name: mixed-workload
+  template:
+    metadata:
+      labels:
+        name: mixed-workload
+    spec:
+      tolerations:
+        # this toleration is to have the daemonset runnable on master nodes
+        # remove it if your masters can't run pods
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: mixed-workload
+          image: phillipsj/pstools:v0.2.0

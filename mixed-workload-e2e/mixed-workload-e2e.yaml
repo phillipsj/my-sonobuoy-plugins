@@ -1,0 +1,21 @@
+podSpec:
+  nodeSelector:
+    kubernetes.io/os: linux
+    kubernetes.io/arch: amd64
+  containers: []
+  restartPolicy: Never
+  serviceAccountName: sonobuoy-serviceaccount
+sonobuoy-config:
+  driver: Job
+  plugin-name: mixed-workload-e2e
+  result-format: junit
+  source_url: https://raw.githubusercontent.com/phillipsj/my-sonobuoy-plugins/main/mixed-workload-e2e/mixed-workload-e2e.yaml
+  description: A plugin for deploying a mixed OS workload for ensuring that your image deploys correctly.
+spec:
+  image: phillipsj/mixed-workload-e2e:latest
+  name: plugin
+  resources: {}
+  volumeMounts:
+  - mountPath: /tmp/sonobuoy/results
+    name: results
+
