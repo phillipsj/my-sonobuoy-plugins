@@ -1,0 +1,22 @@
+sonobuoy-config:
+  driver: Job
+  plugin-name: vsphere-csi-e2e
+  result-format: gojson
+  source_url: https://raw.githubusercontent.com/rancher/sonobuoy-plugins/main/vsphere-csi-e2e/plugin.yaml
+  description: A sonobuoy plugin to verifying that vSphere CSI is configured and working.
+spec:
+  command:
+  - bash
+  args: ["-c","go tool test2json ./custom.test -test.v | tee ${SONOBUOY_RESULTS_DIR}/out.json ; echo ${SONOBUOY_RESULTS_DIR}/out.json > ${SONOBUOY_RESULTS_DIR}/done"]
+  image: rancher/sonobuoy-plugins:v0.1.0-vsphere-csi-e2e
+  env:
+  - name: NS_PREFIX
+    value: vsphere-csi-e2e
+  - name: SONOBUOY_PROGRESS_PORT
+    value: "8099"
+  name: plugin
+  resources: {}
+  volumeMounts:
+  - mountPath: /tmp/sonobuoy/results
+    name: results
+
